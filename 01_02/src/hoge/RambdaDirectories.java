@@ -4,12 +4,12 @@ import java.io.File;
 
 public class RambdaDirectories {
 
-	private static File[] rambdaDir(File root) {
-		File[] dirs = root.listFiles(pathname
-					-> pathname.isDirectory()
-				);
-		return dirs;
-	}
+//	private static File[] rambdaDir(File root) {
+//		File[] dirs = root.listFiles(pathname
+//					-> pathname.isDirectory()
+//				);
+//		return dirs;
+//	}
 	
 	private static File[] refMethodDir(File root) {
 		File[] dirs = root.listFiles(File::isDirectory);
