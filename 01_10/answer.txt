@@ -1,0 +1,10 @@
+Collections Javadoc
+http://docs.oracle.com/javase/8/docs/api/
+
+checkedCollectionやemptyMap
+のようなファクトリー系のメソッドを、対応するインタフェースのstaticメソッドにする。
+
+また、unmodifiableListのような元の型を変換して新たな集合を生成するメソッドを、
+対応するインタフェースのデフォルトメソッドとする。
+
+
