@@ -1,0 +1,19 @@
+[I抽象]
+J抽象		:　コンパイルエラー。型 IJ は継承された抽象メソッド J.f() を実装する必要があります
+Jデフォルト	:　コンパイルエラー。The default method f() inherited from J conflicts with another method inherited from I
+Jstatic		:　コンパイルエラー。型 IJ は継承された抽象メソッド I.f() を実装する必要があります
+
+[Iデフォルト]
+J抽象		:コンパイルエラー。The default method f() inherited from I conflicts with another method inherited from J
+Jデフォルト	:コンパイルエラー。Duplicate default methods named f with the parameters () and () are inherited from the types J and I
+Jstatic		:コンパイル可能。interface I default methodが呼ばれる。
+
+[Istatic]
+J抽象		:コンパイルエラー。型 IJ は継承された抽象メソッド J.f() を実装する必要があります
+Jデフォルト	:コンパイル可能。interface J　default methodが呼ばれる。
+Jstatic		:コンパイルエラー。メソッド f() は型 IJ で未定義です。実装クラスでオーバーライドしてもコンパイルできない。
+
+[スーパークラスSのサブクラスがインタフェースIを実装するとき]
+Sのf()がIに優先される。
+
+
