@@ -1,0 +1,12 @@
+Collectionインタフェースの新たなstreamメソッドは、
+古いコードにstreamメソッドが定義されている場合、
+コンパイルを失敗させる。
+
+
+
+[JARファイルからの古いコード]
+動作は保証されない。以下Oracleサイトからの引用(引用元：http://www.oracle.com/technetwork/java/javase/8-compatibility-guide-2156366.html#A999081)
+
+Binary Compatibility
+Java SE 8 is binary-compatible with Java SE 7 except for the incompatibilities listed below. Except for the noted incompatibilities, class files built with the Java SE 7 compiler will run correctly in Java SE 8. Class files built with the Java SE 8 compiler will not run on earlier releases of Java SE.
+
