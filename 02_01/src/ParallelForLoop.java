@@ -20,7 +20,7 @@ public class ParallelForLoop {
 //           if (w.length() > 12) count++;  
 //        }
 //        System.out.println(count);
-        // answer 1946
+        // answer 33
         
         
         AtomicInteger atomicCounter = new AtomicInteger();
