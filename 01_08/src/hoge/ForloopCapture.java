@@ -5,8 +5,8 @@ import java.util.List;
 
 public class ForloopCapture {
 
-	// æ­£ç­‰ãªã‚³ãƒ¼ãƒ‰ã€‚
-	// å„ãƒ©ãƒ ãƒ€ã¯namesã®è¦ç´ é †ã«å€¤ã‚’ã‚­ãƒ£ãƒ—ãƒãƒ£ã™ã‚‹
+	// ³“–‚ÈƒR[ƒhB
+	// Šeƒ‰ƒ€ƒ_‚Ínames‚Ì—v‘f‡‚É’l‚ğƒLƒƒƒvƒ`ƒƒ‚·‚é
 	public static void main(String[] args) {
 		String[] names = {"Peter", "Paul", "Mary"};
 		List<Runnable> runners = new ArrayList<>();
@@ -21,7 +21,7 @@ public class ForloopCapture {
 		
 		List<Runnable> oldrunners = new ArrayList<>();
 		for(int i = 0; i < names.length; i++) {
-			// iã¯å¯å¤‰ãªå€¤ã®ãŸã‚ã€ãƒ©ãƒ ãƒ€å¼ã‹ã‚‰ã‚­ãƒ£ãƒ—ãƒãƒ£ã§ããªã„
+			// i‚Í‰Â•Ï‚È’l‚Ì‚½‚ßAƒ‰ƒ€ƒ_®‚©‚çƒLƒƒƒvƒ`ƒƒ‚Å‚«‚È‚¢
 //			runners.add( () -> System.out.println(names[i]) );
 		}
 
