@@ -15,6 +15,8 @@ public class sclock extends JFrame {
 		setSize(100, 50);
 		setLayout(new BorderLayout());
 		getContentPane().add(label, BorderLayout.CENTER);
+		
+		// ƒ‰ƒ€ƒ_‚ð—˜—p‚·‚é‚±‚Æ‚ÅA‚Xs‚Ìˆ—‚ª‚Ts‚Å‚©‚¯‚Ä‚¢‚é¨‚Ss’Z‚­‚È‚Á‚½B
 //		new Timer(500, new Raction()).start();
 		new Timer(500, e -> {
 			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("hh : mm : ss");
