@@ -13,20 +13,17 @@ public class Only5 {
                 Paths.get("./alice.txt")), StandardCharsets.UTF_8);
         List<String> words = Arrays.asList(contents.split("[\\P{L}]+"));
 
-//        long count = words.stream().filter(w -> w.length() > 12).count();
-//        System.out.println(count);
-        long c2 = words.stream().filter(w -> {
+        long five = words.stream().filter(w -> {
         		if (w.length() > 12) {
-        			System.out.println(w);
+        			System.out.println(w); // 33個の12文字以上の文字列のうち、5つ分だけ出力される。
         			return true;
         		} else {
         			return false;
         		}
         	}).limit(5).count();
-        System.out.println(c2);
-        // answer 33
+        System.out.println(five);
 
-  
+
 	}
 
 }

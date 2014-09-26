@@ -6,12 +6,12 @@ public class StreamOfInt {
 
 	public static void main(String[] args) {
 		int[] values = {1, 4, 9, 16};
-		
+
+		// Stream.of(values)は、Stream<int[]>となる。
 		Stream<int[]> intStream = Stream.of(values);
-		
+
 		// Integer型専用のストリームで生成することもできる。
 		IntStream intStream2 = IntStream.of(values);
-
 	}
 
 }
