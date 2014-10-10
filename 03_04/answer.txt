@@ -1,0 +1,49 @@
+==========
+回答：　Filterの名称を持つインタフェースは１２個。このうち、関数型インタフェースは以下の★付きの９個。
+回答：　Predicate<T>よりも価値があるのは、NotificationFilter。
+
+==========
+詳細：
+Predicate<T>よりも付加価値があるのは、既存のJavaAPIの多くの箇所で実装クラスがインスタンス生成されているインタフェースと考える。
+NotificationFilterインタフェースは３つの実装が存在し、多くのクラスの型としても利用されているため、
+Predicate≦T＞よりも価値が高いと考える。
+
+
+==========
+Filterの名称を持つインタフェース一覧：
+★DirectoryStream.Filter
+	[引数型]Files.newDirectoryStream(Path dir, DirectoryStream.Filter<? super Path> filter)
+	[引数型]FileSystemProvider.newDirectoryStream(Path dir, DirectoryStream.Filter<? super Path> filter)
+★EventFilter
+	[引数型]XMLInputFactory.createFilteredReader(XMLEventReader reader, EventFilter filter)
+★FileFilter
+	[引数型]File.listFiles(FileFilter filter)
+★FilenameFilter
+	[生成関数]FileDialog.getFilenameFilter()
+	[引数型]FileDialog.setFilenameFilter(FilenameFilter filter)
+	[引数型]File.list(FilenameFilter filter)
+	[引数型]File.listFiles(FilenameFilter filter)
+★Filter
+	[生成関数]Logger.getFilter()
+	[生成関数]Handler.getFilter()
+	[引数型]Logger.setFilter(Filter newFilter)
+	[引数型]Handler.setFilter(Filter newFilter)
+×FilteredRowSet →抽象メソッドが２つあるため関数型インタフェースではない
+×LSParserFilter →抽象メソッドが３つあるため関数型インタフェースではない
+★LSSerializerFilter
+	[生成関数]LSSerializer.getFilter()
+	[引数型]LSSerializer.setFilter(LSSerializerFilter filter)
+★NotificationFilter
+	[実装]AttributeChangeNotificationFilter
+	[実装]NotificationFilterSupport
+	[実装]MBeanServerNotificationFilter
+	[引数型]22個
+★ServiceRegistry.Filter
+	[引数型]ServiceRegistry.getServiceProviders(Class<T> category, ServiceRegistry.Filter filter, boolean useOrdering)
+★StreamFilter
+	[引数型]XMLInputFactory.createFilteredReader(XMLStreamReader reader, StreamFilter filter)
+×XMLFiltert →抽象メソッドが２つあるため関数型インタフェースではない
+
+
+
+
