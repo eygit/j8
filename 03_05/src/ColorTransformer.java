@@ -1,5 +1,6 @@
 import javafx.scene.paint.Color;
 
+@FunctionalInterface
 public interface ColorTransformer {
-	Color apply(Color c);
+	Color apply(int x, int y, Color colorAtXY);
 }
