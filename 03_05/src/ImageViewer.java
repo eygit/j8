@@ -28,7 +28,7 @@ public class ImageViewer extends Application {
 			int height = (int) image.getHeight();
 			int band = 10;
 			Color frameColor = Color.GRAY;
-			if ((x < band) || (width-band < x) || (y < band) || (height-band < y)) {
+			if ((x < band) || (width-band <= x) || (y < band) || (height-band <= y)) {
 				return frameColor;
 			}
 			return c;
