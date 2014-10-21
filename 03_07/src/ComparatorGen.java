@@ -1,85 +1,60 @@
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.EnumSet;
-import java.util.function.UnaryOperator;
 
 /**
- *
- * 回答作成中
+ * [コメント]
  * ”カスタマイズされた引数”の指定方法が不適切かもしれない。
- * 課題の意図から、UnaryOperatorを利用して、連鎖的にComparatorを適用する作りにすべきと思うが・・・
+ * テキストの該当部の記述から、UnaryOperatorを利用して連鎖的にComparatorを適用する作りにすべきと思うが・・・うまくいっていない。
  */
 
 
 public class ComparatorGen {
 
-	public enum SComparator {NATURAL, REVERSE, CASE_SENSITIVE, CASE_INSENSITIVE, SPACE_INCLUDE, SPACE_EXCLUDE};
-
-	public static Comparator<String> comparatorGenerator(EnumSet<SComparator> sc) {
-
-		return String.CASE_INSENSITIVE_ORDER;
-
+	private static String sensitiveString(String in, boolean caseSensitiveOrder, boolean spaceSensitiveOrder) {
+		String out = in;
+		if (! caseSensitiveOrder) out = out.toUpperCase();
+		if (! spaceSensitiveOrder)out = out.replaceAll(" ", "");
+		return out;
 	}
 
-	public static Comparator<String> comparatorGenerator(UnaryOperator<Comparator<String>>... carray) {
-		Comparator<String> comparator = String.CASE_INSENSITIVE_ORDER ;
-		for (UnaryOperator<Comparator<String>> c : carray) {
-			c.apply(comparator);
-		}
-		return comparator;
+	/**
+	 * 指定のコンパレータを返す。
+	 * @param naturalOrder trueなら自然な順序、そうでないなら逆順
+	 * @param caseSensitiveOrder trueなら大文字小文字を区別する
+	 * @param spaceSensitiveOrder trueなら空白を区別する
+	 * @return 指定のコンパレータ
+	 */
+	public static Comparator<String> comparatorGenerator(boolean naturalOrder, boolean caseSensitiveOrder, boolean spaceSensitiveOrder) {
 
-//		return Comparator.naturalOrder(); // 普通の順序
-//		return Comparator.reverseOrder(); // 逆順
-//		return String.CASE_INSENSITIVE_ORDER; // 大文字小文字を区別しない
+		Comparator<String> c = (s1, s2) -> {
+			String ss1 = sensitiveString(s1, caseSensitiveOrder, spaceSensitiveOrder);
+			String ss2 = sensitiveString(s2, caseSensitiveOrder, spaceSensitiveOrder);
+			return ss1.compareTo(ss2);
+		};
 
-	}
-
-	public static UnaryOperator<Comparator<String>> natural() {
-		return c -> c.thenComparing( Comparator.naturalOrder() ); // [ABC, DEF, a b c, abc, def]
-	}
-
-	public static UnaryOperator<Comparator<String>> reverse() {
-		return c -> c.thenComparing( Comparator.reverseOrder() ); // [def, abc, a b c, DEF, ABC]
-	}
-
-	public static UnaryOperator<Comparator<String>> caseInsensitive() {
-		return c -> c.thenComparing( String.CASE_INSENSITIVE_ORDER ); //[a b c, abc, ABC, DEF, def]
+		return naturalOrder ? c : c.reversed();
 	}
 
 
 
 	public static void main(String[] args) {
 		String[] values = {" ab c   ", "abc", "ABC", "DEF", "def", " a bc ", " ab c ", "abcd", "ABCD"};
-		//System.out.println(Arrays.asList(values));
+		System.out.println(Arrays.asList(values) + "元配列順");
 
-		Comparator<String> natural = (s1, s2) -> s1.compareTo(s2); // 自然な順序
-		Comparator<String> reverse = natural.reversed(); // 逆順
-		Comparator<String> caseInsensitive = (s1, s2) -> s1.compareToIgnoreCase(s2); // 大文字と小文字を無視
+		Arrays.sort(values, comparatorGenerator(true, true, true));
+		System.out.println(Arrays.asList(values) + "自然な順序");
 
-		Comparator<String> spaceInsensitive = (s1, s2) -> {
-			String ns1 = s1.replace(" ", "");
-			String ns2 = s2.replace(" ", "");
-			return ns1.compareTo(ns2);
-		}; // 空白を除外する(無視する)
+		Arrays.sort(values, comparatorGenerator(false, true, true));
+		System.out.println(Arrays.asList(values) + "逆順");
 
-		Arrays.sort(values, natural );
-		System.out.println(Arrays.asList(values));
+		Arrays.sort(values, comparatorGenerator(true, false, true));
+		System.out.println(Arrays.asList(values) + "大文字小文字無視");
 
-		Arrays.sort(values, reverse);
-		System.out.println(Arrays.asList(values));
+		Arrays.sort(values, comparatorGenerator(true, true, false));
+		System.out.println(Arrays.asList(values) + "空白無視");
 
-		Arrays.sort(values, caseInsensitive);
-		System.out.println(Arrays.asList(values));
-
-		Arrays.sort(values, spaceInsensitive);
-		System.out.println(Arrays.asList(values));
-
-		Comparator<String> c1 = reverse;
-		Comparator<String> c2 = spaceInsensitive;
-		Arrays.sort(values, c1.thenComparing(c2));
-		System.out.println(Arrays.asList(values));
-
-
+		Arrays.sort(values, comparatorGenerator(false, false, false));
+		System.out.println(Arrays.asList(values) + "組み合わせ(逆順、大文字小文字無視、空白無視)");
 
 	}
 
