@@ -6,9 +6,8 @@ import java.util.function.UnaryOperator;
 /**
  *
  * 回答作成中
- * 現時点で、コンパイルふのう。。。
- * 課題の意図から、UnaryOperatorを利用して、連鎖的にComparatorを適用する作りにすべきと思うが、
- * comparatorGenerator
+ * ”カスタマイズされた引数”の指定方法が不適切かもしれない。
+ * 課題の意図から、UnaryOperatorを利用して、連鎖的にComparatorを適用する作りにすべきと思うが・・・
  */
 
 
@@ -18,13 +17,12 @@ public class ComparatorGen {
 
 	public static Comparator<String> comparatorGenerator(EnumSet<SComparator> sc) {
 
-
 		return String.CASE_INSENSITIVE_ORDER;
 
 	}
 
 	public static Comparator<String> comparatorGenerator(UnaryOperator<Comparator<String>>... carray) {
-		Comparator<String> comparator = ;
+		Comparator<String> comparator = String.CASE_INSENSITIVE_ORDER ;
 		for (UnaryOperator<Comparator<String>> c : carray) {
 			c.apply(comparator);
 		}
@@ -51,25 +49,36 @@ public class ComparatorGen {
 
 
 	public static void main(String[] args) {
-		String[] values = {"abc", "ABC", "DEF", "def", "a b c"};
+		String[] values = {" ab c   ", "abc", "ABC", "DEF", "def", " a bc ", " ab c ", "abcd", "ABCD"};
+		//System.out.println(Arrays.asList(values));
 
-		// コンパレータを引数でどのように指定するべきか？ enum?
-		Arrays.sort(values, comparatorGenerator( natural() ));
+		Comparator<String> natural = (s1, s2) -> s1.compareTo(s2); // 自然な順序
+		Comparator<String> reverse = natural.reversed(); // 逆順
+		Comparator<String> caseInsensitive = (s1, s2) -> s1.compareToIgnoreCase(s2); // 大文字と小文字を無視
+
+		Comparator<String> spaceInsensitive = (s1, s2) -> {
+			String ns1 = s1.replace(" ", "");
+			String ns2 = s2.replace(" ", "");
+			return ns1.compareTo(ns2);
+		}; // 空白を除外する(無視する)
+
+		Arrays.sort(values, natural );
 		System.out.println(Arrays.asList(values));
 
-		Arrays.sort(values, comparatorGenerator( reverse() ));
+		Arrays.sort(values, reverse);
 		System.out.println(Arrays.asList(values));
 
-		Arrays.sort(values, comparatorGenerator( caseInsensitive() ));
+		Arrays.sort(values, caseInsensitive);
 		System.out.println(Arrays.asList(values));
 
-//		Arrays.sort(values,
-////				Comparator.naturalOrder() // [ABC, DEF, a b c, abc, def]
-////				Comparator.reverseOrder() // [def, abc, a b c, DEF, ABC]
-////				String.CASE_INSENSITIVE_ORDER.thenComparing(Comparator.reverseOrder()) //[a b c, abc, ABC, def, DEF]
-////				String.CASE_INSENSITIVE_ORDER.thenComparing(Comparator.naturalOrder()) //[a b c, ABC, abc, DEF, def]
-////				Comparator.comparingInt(String::length).thenComparing(String.CASE_INSENSITIVE_ORDER) //[abc, ABC, DEF, def, a b c]
-//				);
+		Arrays.sort(values, spaceInsensitive);
+		System.out.println(Arrays.asList(values));
+
+		Comparator<String> c1 = reverse;
+		Comparator<String> c2 = spaceInsensitive;
+		Arrays.sort(values, c1.thenComparing(c2));
+		System.out.println(Arrays.asList(values));
+
 
 
 	}
