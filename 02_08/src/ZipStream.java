@@ -26,7 +26,7 @@ public class ZipStream {
 		return l.stream();
 	}
 
-// 以下は別解の模索経過
+// ■以下は別解の模索経過１
 //	public static <T> Stream<T> zip2(Stream<T> first, Stream<T> second) {
 //		AtomicInteger counter = new AtomicInteger();
 //
@@ -48,6 +48,15 @@ public class ZipStream {
 //
 //		return null;
 //	}
+
+	// ■以下は別解の模索経過２
+	// Interface Stream.Builder<T>の利用
+	// API仕様を見る限り、要素の追加→Stream化の状態遷移型であり、無限ストリームを吐き出す用途に使えなさそう。
+
+	// ■以下は別解の模索経過３
+	// public final class StreamSupportの利用
+	// static <T> Stream<T>	stream(Spliterator<T> spliterator, boolean parallel)のメソッドなら無限ストリームを生成できる？
+	// Spliteratorがよくわかっていない。。
 
 
 	public static void main(String[] args) {
