@@ -14,7 +14,7 @@ interface ColorTransformer {
    Color apply(int x, int y, Color colorAtXY);
 }
 
-public class ImageDemo extends Application {
+public class ImageViewer extends Application {
    public static Image transform(Image in, UnaryOperator<Color> f) {
       int width = (int) in.getWidth();
       int height = (int) in.getHeight();
@@ -56,16 +56,18 @@ public class ImageDemo extends Application {
 
    public void start(Stage stage) {
       Image image = new Image("queen-mary.png");
-      Image brightenedImage = transform(image, Color::brighter);
-      Image image2 = transform(image,
-         (x, y, c) -> x < 10 || x > image.getWidth() - 10
-         || y < 10 || y > image.getHeight() - 10 ? Color.GRAY : c);
-
       /*
        * 変換によって明るくなった画像に灰色の枠を追加するために実装したメソッドを利用する。
        */
+      Image imageAns = transform(image, compose(
+    		  genColorTransformer(Color::brighter)
+    	        		 ,
+    		  (x, y, c) -> x < 10 || x > image.getWidth() - 10
+    	         || y < 10 || y > image.getHeight() - 10 ? Color.GRAY : c
+    		  ));
+      
 
-      stage.setScene(new Scene(new HBox(new ImageView(image), new ImageView(brightenedImage), new ImageView(image2))));
+      stage.setScene(new Scene(new HBox(new ImageView(image), new ImageView(imageAns))));
       stage.show();
    }
 
