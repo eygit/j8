@@ -11,6 +11,11 @@ import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+@FunctionalInterface
+interface ColorTransformer {
+   Color apply(int x, int y, Color colorAtXY);
+}
+
 class LatentImage {
    private Image in;
    private List<UnaryOperator<Color>> pendingOperations;
@@ -26,6 +31,20 @@ class LatentImage {
       pendingOperations.add(f);
       return this;
    }
+
+//   LatentImage transform(ColorTransformer ct) {
+//	      pendingOperations.add(f);
+//	      return this;
+//	   }
+
+   /**
+    * UnaryOperator<Color>から、x座標とy座標を無視するColorTransformerを生成するstaticメソッド実装。
+    * 03_11の実装
+    */
+   public static ColorTransformer genColorTransformer(UnaryOperator<Color> f) {
+	   return (x, y, colorAtXY) -> f.apply(colorAtXY);
+   }
+
 
    public Image toImage() {
       int width = (int) in.getWidth();
