@@ -18,7 +18,7 @@ interface ColorTransformer {
 
 class LatentImage {
    private Image in;
-   private List<UnaryOperator<Color>> pendingOperations;
+   private List<ColorTransformer> pendingOperations;
 
    public static LatentImage from(Image in) {
       LatentImage result = new LatentImage();
@@ -28,14 +28,15 @@ class LatentImage {
    }
 
    LatentImage transform(UnaryOperator<Color> f) {
-      pendingOperations.add(f);
-      return this;
+	   // UnaryOperator<Color>をColorTransformerへ適用させる。
+	   pendingOperations.add(genColorTransformer(f));
+	   return this;
    }
 
-//   LatentImage transform(ColorTransformer ct) {
-//	      pendingOperations.add(f);
-//	      return this;
-//	   }
+   LatentImage transform(ColorTransformer ct) {
+	      pendingOperations.add(ct);
+	      return this;
+	   }
 
    /**
     * UnaryOperator<Color>から、x座標とy座標を無視するColorTransformerを生成するstaticメソッド実装。
@@ -46,6 +47,7 @@ class LatentImage {
    }
 
 
+
    public Image toImage() {
       int width = (int) in.getWidth();
       int height = (int) in.getHeight();
@@ -53,7 +55,7 @@ class LatentImage {
       for (int x = 0; x < width; x++)
          for (int y = 0; y < height; y++) {
             Color c = in.getPixelReader().getColor(x, y);
-            for (UnaryOperator<Color> f : pendingOperations) c = f.apply(c);
+            for (ColorTransformer f : pendingOperations) c = f.apply(x, y, c);
             out.getPixelWriter().setColor(x, y, c);
          }
       return out;
@@ -65,13 +67,13 @@ public class ImageViewer extends Application {
       Image image = new Image("eiffel-tower.jpg");
       Image finalImage = LatentImage.from(image)
          .transform(Color::brighter).transform(Color::grayscale)
-         .toImage();      
+         .toImage();
       stage.setScene(new Scene(new HBox(
          new ImageView(image),
          new ImageView(finalImage))));
       stage.show();
    }
-   
+
 	public static void main(String[] args) {
         launch(args);
 	}
