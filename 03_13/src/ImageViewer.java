@@ -13,7 +13,8 @@ import javafx.stage.Stage;
 
 @FunctionalInterface
 interface ColorTransformer {
-   Color apply(int x, int y, Color colorAtXY);
+	// 前段の画素ではなく画像を入力とするよう変更した。
+	Color apply(int x, int y, Image image);
 }
 
 class LatentImage {
@@ -38,7 +39,8 @@ class LatentImage {
 	   }
 
    public static ColorTransformer genColorTransformer(UnaryOperator<Color> f) {
-	   return (x, y, colorAtXY) -> f.apply(colorAtXY);
+	   // 画像からピクセルを拾うように変更した。
+	   return (x, y, image) -> f.apply(image.getPixelReader().getColor(x, y));
    }
 
 
@@ -47,15 +49,22 @@ class LatentImage {
       int width = (int) in.getWidth();
       int height = (int) in.getHeight();
       WritableImage out = new WritableImage(width, height);
+      for (int x = 0; x < width; x++) {
+	         for (int y = 0; y < height; y++) {
+	        	 out.getPixelWriter().setColor(x, y, in.getPixelReader().getColor(x, y));
+	         }
+      }
 
       // 前段の処理を全ピクセルに対して演算してから後段の処理を実行するように処理順序を入れ替えた。
       for (ColorTransformer f : pendingOperations) {
-	      for (int x = 0; x < width; x++)
+    	  WritableImage prevIn = out;
+    	  out = new WritableImage(width, height);
+	      for (int x = 0; x < width; x++) {
 	         for (int y = 0; y < height; y++) {
-	            Color c = in.getPixelReader().getColor(x, y);
-	            c = f.apply(x, y, c);
+	            Color c = f.apply(x, y, prevIn);
 	            out.getPixelWriter().setColor(x, y, c);
 	         }
+	      }
       }
       return out;
    }
@@ -66,21 +75,21 @@ public class ImageViewer extends Application {
       Image image = new Image("eiffel-tower.jpg");
 
       // ぼやけ検出
-      ColorTransformer diffusingFilter =  (x, y, colorAtXY) -> {
+      ColorTransformer diffusingFilter =  (x, y, inImage) -> {
      	 Color colors[] = new Color[9];
      	 int xw = x == 0 ? x : x -1;
-     	 int xe = x == image.getWidth()  -2 ? x + 1 : x;
+     	 int xe = x == inImage.getWidth()  -2 ? x + 1 : x;
      	 int yn = y == 0 ? y : y -1;
-     	 int ys = y == image.getHeight() -2 ? y + 1 : y;
-     	 colors[0] = image.getPixelReader().getColor(xw, yn);
-     	 colors[1] = image.getPixelReader().getColor(xw, y );
-     	 colors[2] = image.getPixelReader().getColor(xw, ys);
-     	 colors[3] = image.getPixelReader().getColor(x  , yn);
-     	 colors[4] = image.getPixelReader().getColor(x  , y );
-     	 colors[5] = image.getPixelReader().getColor(x  , ys);
-     	 colors[6] = image.getPixelReader().getColor(xe, yn);
-     	 colors[7] = image.getPixelReader().getColor(xe, y );
-     	 colors[8] = image.getPixelReader().getColor(xe, ys);
+     	 int ys = y == inImage.getHeight() -2 ? y + 1 : y;
+     	 colors[0] = inImage.getPixelReader().getColor(xw, yn);
+     	 colors[1] = inImage.getPixelReader().getColor(xw, y );
+     	 colors[2] = inImage.getPixelReader().getColor(xw, ys);
+     	 colors[3] = inImage.getPixelReader().getColor(x  , yn);
+     	 colors[4] = inImage.getPixelReader().getColor(x  , y );
+     	 colors[5] = inImage.getPixelReader().getColor(x  , ys);
+     	 colors[6] = inImage.getPixelReader().getColor(xe, yn);
+     	 colors[7] = inImage.getPixelReader().getColor(xe, y );
+     	 colors[8] = inImage.getPixelReader().getColor(xe, ys);
      	 double r=0;
      	 double g=0;
      	 double b=0;
@@ -99,21 +108,21 @@ public class ImageViewer extends Application {
     	         .toImage();
 
       // エッジ検出
-      ColorTransformer edgeFilter =  (x, y, colorAtXY) -> {
+      ColorTransformer edgeFilter =  (x, y, inImage) -> {
       	 Color colors[] = new Color[9];
       	 int xw = x == 0 ? x : x -1;
-      	 int xe = x == image.getWidth()  -2 ? x + 1 : x;
+      	 int xe = x == inImage.getWidth()  -2 ? x + 1 : x;
       	 int yn = y == 0 ? y : y -1;
-      	 int ys = y == image.getHeight() -2 ? y + 1 : y;
-      	 colors[0] = image.getPixelReader().getColor(xw, yn);
-      	 colors[1] = image.getPixelReader().getColor(xw, y );
-      	 colors[2] = image.getPixelReader().getColor(xw, ys);
-      	 colors[3] = image.getPixelReader().getColor(x  , yn);
-      	 colors[4] = image.getPixelReader().getColor(x  , y );
-      	 colors[5] = image.getPixelReader().getColor(x  , ys);
-      	 colors[6] = image.getPixelReader().getColor(xe, yn);
-      	 colors[7] = image.getPixelReader().getColor(xe, y );
-      	 colors[8] = image.getPixelReader().getColor(xe, ys);
+      	 int ys = y == inImage.getHeight() -2 ? y + 1 : y;
+      	 colors[0] = inImage.getPixelReader().getColor(xw, yn);
+      	 colors[1] = inImage.getPixelReader().getColor(xw, y );
+      	 colors[2] = inImage.getPixelReader().getColor(xw, ys);
+      	 colors[3] = inImage.getPixelReader().getColor(x  , yn);
+      	 colors[4] = inImage.getPixelReader().getColor(x  , y );
+      	 colors[5] = inImage.getPixelReader().getColor(x  , ys);
+      	 colors[6] = inImage.getPixelReader().getColor(xe, yn);
+      	 colors[7] = inImage.getPixelReader().getColor(xe, y );
+      	 colors[8] = inImage.getPixelReader().getColor(xe, ys);
       	 double r=4*(colors[4].getRed()) - colors[1].getRed() - colors[3].getRed() - colors[5].getRed() - colors[7].getRed();
       	 double g=4*(colors[4].getGreen()) - colors[1].getGreen() - colors[3].getGreen() - colors[5].getGreen() - colors[7].getGreen();
       	 double b=4*(colors[4].getBlue()) - colors[1].getBlue() - colors[3].getBlue() - colors[5].getBlue() - colors[7].getBlue();
