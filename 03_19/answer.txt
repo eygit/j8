@@ -1,0 +1,4 @@
+BiFunction<U,? super T,U> accumulator
+では、Uは引数であり戻り値でもあるため、型が変異しない。
+このため? super Uとしてはならない。
+
