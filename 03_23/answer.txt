@@ -1,0 +1,2 @@
+Pair<T>に対するflatMap操作は、Fucntion<T,U>操作の結果のPair<U>からUを取り出した結果への直接演算と考えれば、
+flatMapメソッドを定義することはできる。
