@@ -1,3 +1,5 @@
+// 未完成の別解検討版
+
 //import java.util.ArrayList;
 //import java.util.List;
 //import java.util.function.UnaryOperator;
