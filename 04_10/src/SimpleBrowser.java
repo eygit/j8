@@ -22,6 +22,15 @@ public class SimpleBrowser extends Application {
 
 
 	@Override public void start(Stage stage) {
+		//WebEngineはproxy認証非対応のため、ローカルの認証不要プロクシなどのバイパス手段が必要・・・
+//		System.setProperty("http.proxyHost","localhost");
+//		System.setProperty("http.proxyPort","8080");
+//		String location = "http://www.google.co.jp/";
+
+		// ローカルのサンプルファイルを読み込みたい場合の例
+//		String location = "file:///D:/git/j8/04_10/index.html";
+
+		// ローカルにWebサーバーを立てている場合の例
 		String location = "http://localhost:18080/";
 		WebView browser = new WebView();
 		WebEngine engine = browser.getEngine();

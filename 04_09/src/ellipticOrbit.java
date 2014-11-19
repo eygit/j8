@@ -37,7 +37,7 @@ public class ellipticOrbit extends Application {
 		rect.setFill(Color.BLUE);
 
 		PathTransition pathTransition = new PathTransition();
-		pathTransition.setDuration(Duration.millis(4000));
+		pathTransition.setDuration(Duration.millis(2000));
 		pathTransition.setNode(rect);
 		pathTransition.setPath(createEllipsePath(200, 200, 50, 100, 45));
 		pathTransition.setOrientation(OrientationType.ORTHOGONAL_TO_TANGENT);
