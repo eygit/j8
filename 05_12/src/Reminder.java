@@ -1,3 +1,4 @@
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.IdentityHashMap;
@@ -20,17 +21,19 @@ public class Reminder {
 
 	public void start() {
 		final Runnable reminder = () -> {
-			ZonedDateTime before1 = ZonedDateTime.now().minusHours(1);
+			System.out.println("==== 定時リマインダシステム： " + LocalDateTime.now() + " ====");
+			ZonedDateTime before1 = ZonedDateTime.now().plusHours(1);
 			for (Map.Entry<ZonedDateTime, String> entry : schedules.entrySet()) {
-				if (before1.isBefore(entry.getKey().withZoneSameLocal(ZoneId.of("Asia/Tokyo"))) ) {
-					System.out.println(entry);
+				if (before1.isAfter(entry.getKey().withZoneSameLocal(ZoneId.of("Asia/Tokyo"))) ) {
+					System.out.println("[!!!ALARM!!!]" + entry);
+//					schedules.remove(entry.getKey());
 				} else {
-					System.out.println(before1 + " NG: " + entry.getKey().withZoneSameLocal(ZoneId.of("Asia/Tokyo")) + entry.getValue());
+					System.out.println("[future task]" + entry.getKey().withZoneSameLocal(ZoneId.of("Asia/Tokyo")) + entry.getValue());
 				}
 			}
 		};
 
-		final ScheduledFuture<?> reminderHandle = scheduler.scheduleAtFixedRate(reminder, 0, 1, TimeUnit.MINUTES);
+		final ScheduledFuture<?> reminderHandle = scheduler.scheduleAtFixedRate(reminder, 0, 1, TimeUnit.MINUTES);// TimeUnit.MINUTES
 		scheduler.schedule( () -> { reminderHandle.cancel(false);}, 0, TimeUnit.SECONDS);
 	}
 
@@ -43,7 +46,10 @@ public class Reminder {
 		r.add(ZonedDateTime.of(2014, 12, 1, 12, 0, 0, 0, ZoneId.of("CET")), "2014年12月１日　中央ヨーロッパ");
 		r.add(ZonedDateTime.of(2014, 12, 11, 21, 10, 0, 0, ZoneId.of("CET")), "takoCET");
 		r.add(ZonedDateTime.of(2014, 12, 11, 21, 10, 0, 0, ZoneId.of("Asia/Tokyo")), "tako");
-		r.add(ZonedDateTime.of(2016, 8, 8, 21, 10, 0, 0, ZoneId.of("Asia/Tokyo")), "future");
+		r.add(ZonedDateTime.now().minusMinutes(10), "now - 10min");
+		r.add(ZonedDateTime.now(), "now");
+		r.add(ZonedDateTime.now().plusMinutes(10), "now + 10min");
+		r.add(ZonedDateTime.now().plusHours(1).plusMinutes(10), "now + 1hour10min");
 		r.start();
 	}
 
