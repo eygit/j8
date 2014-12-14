@@ -5,7 +5,6 @@ import java.util.IdentityHashMap;
 import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 
@@ -26,15 +25,12 @@ public class Reminder {
 			for (Map.Entry<ZonedDateTime, String> entry : schedules.entrySet()) {
 				if (before1.isAfter(entry.getKey().withZoneSameLocal(ZoneId.of("Asia/Tokyo"))) ) {
 					System.out.println("[!!!ALARM!!!]" + entry);
-//					schedules.remove(entry.getKey());
 				} else {
 					System.out.println("[future task]" + entry.getKey().withZoneSameLocal(ZoneId.of("Asia/Tokyo")) + entry.getValue());
 				}
 			}
 		};
-
-		final ScheduledFuture<?> reminderHandle = scheduler.scheduleAtFixedRate(reminder, 0, 1, TimeUnit.MINUTES);// TimeUnit.MINUTES
-		scheduler.schedule( () -> { reminderHandle.cancel(false);}, 0, TimeUnit.SECONDS);
+		scheduler.scheduleAtFixedRate(reminder, 0, 5, TimeUnit.SECONDS);// TimeUnit.MINUTES
 	}
 
 	public String toString() {
@@ -43,13 +39,16 @@ public class Reminder {
 
 	public static void main(String[] args) {
 		Reminder r = new Reminder();
-		r.add(ZonedDateTime.of(2014, 12, 1, 12, 0, 0, 0, ZoneId.of("CET")), "2014年12月１日　中央ヨーロッパ");
-		r.add(ZonedDateTime.of(2014, 12, 11, 21, 10, 0, 0, ZoneId.of("CET")), "takoCET");
-		r.add(ZonedDateTime.of(2014, 12, 11, 21, 10, 0, 0, ZoneId.of("Asia/Tokyo")), "tako");
 		r.add(ZonedDateTime.now().minusMinutes(10), "now - 10min");
 		r.add(ZonedDateTime.now(), "now");
-		r.add(ZonedDateTime.now().plusMinutes(10), "now + 10min");
+		r.add(ZonedDateTime.now().plusMinutes(1), "now + 1min");
 		r.add(ZonedDateTime.now().plusHours(1).plusMinutes(10), "now + 1hour10min");
+		r.add(ZonedDateTime.now().plusHours(1).plusMinutes(10), "now + 1hour10min");
+		
+		r.add(ZonedDateTime.now(ZoneId.of("CET")).plusHours(1).plusMinutes(10), "CET: now + 1hour10min");
+		r.add(ZonedDateTime.now(ZoneId.of("CET")).plusHours(1).plusMinutes(10).plusHours(9), "CET: now + 1hour10min + 9hour");
+		
+		
 		r.start();
 	}
 
