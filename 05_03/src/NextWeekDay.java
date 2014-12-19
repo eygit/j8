@@ -22,14 +22,23 @@ public class NextWeekDay {
 		LocalDate nextWeekDay = today.with(next( w ->
 					w.getDayOfWeek().getValue() < 6
 				));
-		System.out.println(nextWeekDay);
+		System.out.println("TODAY:: " + today + ":" +  today.getDayOfWeek());
+		System.out.println("NEXT :: " + nextWeekDay + ":" +  nextWeekDay.getDayOfWeek());
 
 
 		today = LocalDate.of(2014, 12, 05); // 金曜日
 		nextWeekDay = today.with(next( w ->
 					w.getDayOfWeek().getValue() < 6
 				));
-		System.out.println(nextWeekDay);
+		System.out.println("TODAY:: " + today + ":" +  today.getDayOfWeek());
+		System.out.println("NEXT :: " + nextWeekDay + ":" +  nextWeekDay.getDayOfWeek());
+
+		today = LocalDate.now();
+		nextWeekDay = today.with(next( w ->
+					w.getDayOfWeek().getValue() < 6
+				));
+		System.out.println("TODAY:: " + today + ":" +  today.getDayOfWeek());
+		System.out.println("NEXT :: " + nextWeekDay + ":" +  nextWeekDay.getDayOfWeek());
 
 	}
 

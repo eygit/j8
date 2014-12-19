@@ -2,7 +2,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 
 
-public class MondayCalendar {
+public class CalLikeCalendar {
 
 	static void printMonthCalendar(int year, int month) {
 		System.out.printf("  === %d / %2d ===\n", year, month);
