@@ -19,14 +19,14 @@ import java.util.regex.Pattern;
  * ForkJoinPool.commonPool().awaitQuiescence(10, TimeUnit.SECONDS);
  */
 
-
 class Util {
 	public static String getPage(String urlString) {
+		Scanner scanner = null;
 		try {
-			Scanner in = new Scanner(new URL(urlString).openStream());
+			scanner = new Scanner(new URL(urlString).openStream());
 			StringBuilder builder = new StringBuilder();
-			while (in.hasNextLine()) {
-				builder.append(in.nextLine());
+			while (scanner.hasNextLine()) {
+				builder.append(scanner.nextLine());
 				builder.append("\n");
 			}
 			return builder.toString();
@@ -34,6 +34,8 @@ class Util {
 			RuntimeException rex = new RuntimeException();
 			rex.initCause(ex);
 			throw rex;
+		} finally {
+			scanner.close();
 		}
 	}
 
@@ -47,7 +49,7 @@ class Util {
 		return result;
 	}
 
-	public static Scanner in = new Scanner(System.in);
+	private static Scanner in = new Scanner(System.in);
 
 	public static String getInput(String prompt) {
 		System.out.print(prompt + ": ");
@@ -62,13 +64,9 @@ class Util {
 
 }
 
-public class FutureDemo {
+public class UrlLink {
 	public static void main(String[] args) throws ExecutionException, InterruptedException {
 		String hrefPattern = "<a\\s+href\\s*=\\s*(\"[^\"]*\"|[^\\s>]*)\\s*>";
-		// CompletableFuture<String> getURL = CompletableFuture.supplyAsync(() -> Util.getInput("URL"));
-
-		// Make a function mapping URL to CompletableFuture
-
 		CompletableFuture<String> f = Util.repeat( () -> Util.getInput("URL"),
 				s -> s.startsWith("http://")).thenApplyAsync((String url) -> Util.getPage(url));
 		CompletableFuture<List<String>> links = f.thenApply(c -> Util.matches(c, hrefPattern));
