@@ -1,0 +1,14 @@
+
+オブジェクトの生成・メソッドの呼び出し・戻り値の表示。
+jjs> var sb = java.lang.StringBuilder
+jjs> var sbc = java.lang.StringBuilder
+jjs> var sb = new sbc()
+jjs> sb.append("foo")
+foo
+jjs> sb.append("bar")
+foobar
+jjs>
+
+Javaでテストプログラムを書くよりは楽か？
+→Javaでテストプログラムを書くほうが楽と考える（IDEの入力サポートがあるため）。
+
