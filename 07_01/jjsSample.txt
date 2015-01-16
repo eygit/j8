@@ -1,6 +1,5 @@
 
 オブジェクトの生成・メソッドの呼び出し・戻り値の表示。
-jjs> var sb = java.lang.StringBuilder
 jjs> var sbc = java.lang.StringBuilder
 jjs> var sb = new sbc()
 jjs> sb.append("foo")
@@ -10,5 +9,7 @@ foobar
 jjs>
 
 Javaでテストプログラムを書くよりは楽か？
-→Javaでテストプログラムを書くほうが楽と考える（IDEの入力サポートがあるため）。
+→Javaでテストプログラムを書くほうが楽と考える
+→→その場で入力するjjsはリグレッションテストに使えないため（結局shなどにまとめ書きしないといけなくなり、それならjavaでいい）。
+→→IDEの入力サポートがあるため）。
 
