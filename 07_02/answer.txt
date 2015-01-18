@@ -28,24 +28,17 @@ import java.util.List;
         System.out.println(five);
 
 ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
-jjsによる呼び出し例
+jjsによる呼び出し例.ファイルリードがうまくいかない・・・パス指定がおかしい？
+
 
 D:\git\j8\07_02>jjs
-jjs> var paths = java.nio.file.Paths
-jjs> var alicePath = paths.get("./alice.txt")
-jjs> var file = java.nio.file.Files
-jjs> var sc = java.nio.charset.StandardCharsets
-jjs> var encoding = sc.UTF_8
-jjs> var contentsByte = file.readAllBytes(alicePath)
-jjs> var stringClazz = java.lang.String
-jjs> var contents = new String(contentsByte, encoding)
-jjs> var arrays = java.util.Arrays
-jjs> var split = contents.split("[\\P{L}]+")
-jjs> var words = arrays.asList(split)
-jjs> words.stream().filter(function(w) {return w.length() > 12}).count()
+var contentsByte = java.nio.file.Files.readAllBytes(java.nio.file.Paths.get("./alice.txt"))
+var contents = new String(contentsByte, java.nio.charset.StandardCharsets.UTF_8)
+var split = contents.split("[\\P{L}]+")
+var words = java.util.Arrays.asList(split)
+words.stream().filter(function(w) {return w.length() > 12}).count()
 
 ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
 記載が冗長で非常に手間がかかる。JavaはJavaで書いた方が素直と考える。
-
 
 

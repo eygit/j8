@@ -1,0 +1,13 @@
+
+実行結果
+jjs> var b = new java.math.BigInteger('1234567890987654321')
+jjs> b
+1234567890987654400
+
+
+b.mod(java.math.BigInteger.TEN)
+jjs> b.mod(java.math.BigInteger.TEN)
+1
+
+奇妙に表示されるのは、JSのNumber型(Javaのdouble型）で数値処理されているから。
+
