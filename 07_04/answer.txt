@@ -1,0 +1,14 @@
+文字列から部分文字列を抽出することでリテラルでないJavaScript文字列を生成し、getClassメソッドを呼び出しなさい。
+結果はどのクラスになりますか。
+それから、そのクラスをjava.lang.String.class.castへ渡しなさい。
+何が起きますか。それが起きた理由は何ですか。
+
+<実行結果：　Stringクラスとなる。キャストはできない(Class型からString型への変換のため・・>
+var msg = 'hoge'.slice(2)
+msg
+ge
+msg.getClass()
+class java.lang.String
+java.lang.String.class.cast(msg.getClass())
+java.lang.ClassCastException: Cannot cast java.lang.Class to java.lang.String
+

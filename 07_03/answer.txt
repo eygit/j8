@@ -1,13 +1,13 @@
 
 実行結果
-jjs> var b = new java.math.BigInteger('1234567890987654321')
+jjs> var b = new java.math.BigInteger(java.lang.String('1234567890987654321'))
 jjs> b
 1234567890987654400
-
-
-b.mod(java.math.BigInteger.TEN)
 jjs> b.mod(java.math.BigInteger.TEN)
 1
 
 奇妙に表示されるのは、JSのNumber型(Javaのdouble型）で数値処理されているから。
+ →bで得られる数値はb.longValue()やb.doubleValue()と同一の数値である。
+ →b.classの結果自体は正しくjava.math.BigIntegerである。
+bの実際の値の表示方法は、、、まだ発見できていない。。。
 
