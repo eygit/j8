@@ -3,3 +3,16 @@ addに対するすべての呼び出しをログに記録するようにArrayListを拡張する方法を説明し
 しかし、それは、単一オブジェクトに対してのみ機能します。
 ログを拡張するArrayListを何個でも生成できるようにするために、そのような複数オブジェクトを生成する
 ファクトリとなるJavaScript関数を書きなさい。
+
+
+◆（参考）教書のコード
+var arr = new (Java.extend(java.util.ArrayList)) {add: function(x) {print('Adding ' + x); return Java.super(arr).add(x)}}
+
+◆題意のコードと実行結果
+var genarray = function() {return new (Java.extend(java.util.ArrayList)) {add: function(x) {print('Adding ' + x); return Java.super(arr).add(x)}}}
+jjs> var a = genarray()
+jjs> a.add('fuga')
+Adding fuga
+true
+
+
