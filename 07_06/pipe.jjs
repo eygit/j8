@@ -1,0 +1,11 @@
+var pipe = function(cmd1, cmd2, cmd3) {
+	var out = $EXEC(cmd1)
+	print(out)
+	out = $EXEC(cmd2, out)
+	print(out)
+	out = $EXEC(cmd3, out)
+	print(out)
+}
+
+pipe('find .', 'grep -v class', 'sort')
+ 
