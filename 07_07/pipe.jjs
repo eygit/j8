@@ -1,0 +1,30 @@
+var pipe = function(cmd1, cmd2, cmd3) {
+	var cmds = "sh,-c," + cmd1 + " | " + cmd2 + " | " + cmd3
+	print(cmds)
+	var cmdList = java.util.Arrays.asList(cmd1.split(","))
+	var pb = new java.lang.ProcessBuilder(cmdList)
+	var process = pb.start()
+	var is = process.getInputStream()
+	var br = new java.io.BufferedReader(new java.io.InputStreamReader(process.getInputStream()))
+	for (var line = br.readLine(); line != null; line = br.readLine()) {
+		// ほんとうは、ここで再帰的にコマンドを呼ぶ方法が妥当な気がする。
+		print(line)
+	}
+}
+
+// ex: 07_06
+var oldpipe = function(cmd1, cmd2, cmd3) {
+	var out = $EXEC(cmd1)
+	print(out)
+	out = $EXEC(cmd2, out)
+	print(out)
+	out = $EXEC(cmd3, out)
+	print(out)
+}
+
+pipe('find .', 'grep -v class', 'sort')
+
+// ex: 07_06
+//print("=========")
+//oldpipe('find .', 'grep -v class', 'sort')
+ 
