@@ -1,0 +1,8 @@
+var data1 = javafx.scene.chart.PieChart.Data("Hoge", 4)
+var data2 = javafx.scene.chart.PieChart.Data("Fuga", 6)
+
+var pieChartData = javafx.collections.FXCollections.observableArrayList(data1, $
+
+$STAGE.scene = new javafx.scene.Scene(pieChartData);
+
+//起動不能...-fxオプション付きで実行してもmain文がないと例外表示される（JavaでのFX起動時と同様に実行できず）。
