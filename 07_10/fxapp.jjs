@@ -1,8 +1,24 @@
-var data1 = javafx.scene.chart.PieChart.Data("Hoge", 4)
-var data2 = javafx.scene.chart.PieChart.Data("Fuga", 6)
+// ファイルを読めていない
+var contentsByte = java.nio.file.Files.readAllBytes(java.nio.file.Paths.get("data.txt"))
+var contents = new String(contentsByte, java.nio.charset.StandardCharsets.UTF_8)
+print(contents)
+var split = contents.split("[\\P{L}]+")
+var words = java.util.Arrays.asList(split)
+print(words.get(0))
+//
 
-var pieChartData = javafx.collections.FXCollections.observableArrayList(data1, $
+//本当はこう記載するつもりだった
+//var data1 = new javafx.scene.chart.PieChart.Data(words.get(0), Number(words.get(1)))
+//var data2 = new javafx.scene.chart.PieChart.Data(words.get(2), Number(words.get(3)))
 
-$STAGE.scene = new javafx.scene.Scene(pieChartData);
+var data1 = new javafx.scene.chart.PieChart.Data("udon", 240)
+var data2 = new javafx.scene.chart.PieChart.Data("soba", 350)
 
-//起動不能...-fxオプション付きで実行してもmain文がないと例外表示される（JavaでのFX起動時と同様に実行できず）。
+var pieChartData = javafx.collections.FXCollections.observableArrayList(data1, data2)
+var pieChart = new javafx.scene.chart.PieChart(pieChartData)
+
+var root = new javafx.scene.layout.VBox()
+root.children.addAll(pieChart)
+$STAGE.scene = new javafx.scene.Scene(root);
+
+//Javaでプログラミングするほうが、デバッグしやすいだけ簡単と思う。
