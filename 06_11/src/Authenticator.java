@@ -31,7 +31,7 @@ class Util {
 	}
 }
 
-public class UrlLink {
+public class Authenticator {
 	private static boolean login(PasswordAuthentication input) {
 		//正当性検証のシミュレート
 		try {
