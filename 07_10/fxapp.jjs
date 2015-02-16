@@ -1,18 +1,12 @@
-// ファイルを読めていない
 var contentsByte = java.nio.file.Files.readAllBytes(java.nio.file.Paths.get("data.txt"))
-var contents = new String(contentsByte, java.nio.charset.StandardCharsets.UTF_8)
-print(contents)
-var split = contents.split("[\\P{L}]+")
+var contents = new java.lang.String(contentsByte, java.nio.charset.StandardCharsets.UTF_8)
+var split = contents.split("\n")
 var words = java.util.Arrays.asList(split)
-print(words.get(0))
-//
+var data1 = new javafx.scene.chart.PieChart.Data(words.get(0), Number(words.get(1)))
+var data2 = new javafx.scene.chart.PieChart.Data(words.get(2), Number(words.get(3)))
 
-//本当はこう記載するつもりだった
-//var data1 = new javafx.scene.chart.PieChart.Data(words.get(0), Number(words.get(1)))
-//var data2 = new javafx.scene.chart.PieChart.Data(words.get(2), Number(words.get(3)))
-
-var data1 = new javafx.scene.chart.PieChart.Data("udon", 240)
-var data2 = new javafx.scene.chart.PieChart.Data("soba", 350)
+//[DEBUG] var data1 = new javafx.scene.chart.PieChart.Data("udon", 240)
+//[DEBUG] var data2 = new javafx.scene.chart.PieChart.Data("soba", 350)
 
 var pieChartData = javafx.collections.FXCollections.observableArrayList(data1, data2)
 var pieChart = new javafx.scene.chart.PieChart(pieChartData)

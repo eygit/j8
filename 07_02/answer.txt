@@ -28,17 +28,18 @@ import java.util.List;
         System.out.println(five);
 
 ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
-jjsによる呼び出し例.ファイルリードがうまくいかない・・・パス指定がおかしい？
+jjsによる呼び出し例(単語切り出しはスペース固定に割切りしている).
 
 
 D:\git\j8\07_02>jjs
 var contentsByte = java.nio.file.Files.readAllBytes(java.nio.file.Paths.get("./alice.txt"))
-var contents = new String(contentsByte, java.nio.charset.StandardCharsets.UTF_8)
-var split = contents.split("[\\P{L}]+")
+var contents = new java.lang.String(contentsByte, java.nio.charset.StandardCharsets.UTF_8)
+var split = contents.split(" ")
 var words = java.util.Arrays.asList(split)
-words.stream().filter(function(w) {return w.length() > 12}).count()
+var wordsSet = new java.util.HashSet(words)
+wordsSet.stream().filter(function(w) {return w.length() > 12}).forEach(function(w) {return java.lang.System.out.println(w.length + "(" + w + ")")})
 
 ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
-記載が冗長で非常に手間がかかる。JavaはJavaで書いた方が素直と考える。
+new String()と書いてもエラー等の表示がないなどデバッグが行いにくい。JavaはJavaで書いた方が素直と考える。
 
 

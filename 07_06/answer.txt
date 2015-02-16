@@ -9,6 +9,6 @@ jjs -scripting
 ◆（参考）Windowsコマンド/jjsの実行方法
 jjs> `cmd /c dir`
 
-◆Windows環境で$EXEC利用時の第二引数評価結果の引き渡しがうまくいかない。。。
+◆Windows環境で$EXEC利用時の第二引数評価結果の引き渡しがうまくいかない。。。のでLinux上でpipe.jjsを実行のこと。
 
 
