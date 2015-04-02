@@ -1,0 +1,20 @@
+複数例外をキャッチするcatch節でキャッチした例外をスローする場合に、その処理が書かれているメソッドのthrows宣言には、
+例外の型をどのように宣言しますか。
+たとえば、次の例を考えなさい。
+
+　→throws節には、スローする可能性のある全ての例外を宣言すべきである。
+　　なぜなら、API利用者はそれらに対処しなければならないから
+　（逆に、書いていない場合に、未定義の例外に起因して重大障害が起きた場合、API提供者は無関係ではいられない）
+
+
+public void process() throws FileNotFoundException, UnkownHostException {
+	try {
+		...
+	} catch (FileNotFoundException | UnkownHostException ex) {
+		logger.log(Level.SERVER, "...", ex);
+		throws ex;
+	}
+}
+
+
+
