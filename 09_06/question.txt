@@ -1,0 +1,2 @@
+ファイルからすべての行を読込、逆順に書き出すプログラムを作成しなさい。
+Files.readAllLinesとFiles.writeを使用しなさい。

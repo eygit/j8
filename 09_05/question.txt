@@ -1,2 +1,2 @@
 ファイルからすべての文字を読込、逆順に書き出すプログラムを作成しなさい。
-Files.readAllBytesとFiles.writeを仕様しなさい。
+Files.readAllBytesとFiles.writeを使用しなさい。
