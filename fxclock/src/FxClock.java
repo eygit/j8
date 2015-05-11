@@ -8,12 +8,14 @@ import javafx.application.Application;
 import javafx.concurrent.ScheduledService;
 import javafx.concurrent.Task;
 import javafx.scene.Scene;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -57,7 +59,6 @@ public class FxClock extends Application {
 			fontFamilyMenu.getItems().add(fontFamilyItem);
 		}
 
-
 		// FontNameMenu設定.
 		List<String> fontNames = Font.getFontNames();
 		Menu fontNameMenu = new Menu("FontName");
@@ -76,17 +77,21 @@ public class FxClock extends Application {
 			fontSizeMenu.getItems().add(fontSizeItem);
 		}
 
+		// カラーピッカー設定.
+		ColorPicker colorPicker = new ColorPicker(Color.BLACK);
+		colorPicker.setOnAction(e -> clockLabel.setTextFill(colorPicker.getValue()));
+
 
 		// 画面組み立て
 		MenuBar mainMenu = new MenuBar();
 		mainMenu.getMenus().addAll(fontFamilyMenu, fontNameMenu, fontSizeMenu);
 		VBox topContainer = new VBox();
-		topContainer.getChildren().addAll(mainMenu, clockLabel);
+		topContainer.getChildren().addAll(mainMenu, colorPicker, clockLabel);
 		BorderPane root = new BorderPane();
 		root.setTop(topContainer);
 
 		stage.setScene(new Scene(root));
-		stage.setWidth(400);
+		stage.setWidth(300);
 		stage.setHeight(150);
 		stage.setTitle("fx clock");
 		stage.show();
